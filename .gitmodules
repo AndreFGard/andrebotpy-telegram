@@ -1,0 +1,3 @@
+[submodule "andrebotpy"]
+	path = andrebotpy
+	url = https://github.com/andrefgard/andrebotpy
