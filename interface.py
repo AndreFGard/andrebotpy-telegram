@@ -35,7 +35,7 @@ class Telegram_Context_Adapter:
             nd = dict()
             for name,wins in args[0].items():
                 newname = get_ofense() if name != "Andrebot" else name
-                while newname not in nd:
+                while newname in nd:
                     newname = get_ofense()
                 nd[newname] = wins
             args = (nd,) + args[1:]
