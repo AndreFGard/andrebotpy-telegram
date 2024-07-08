@@ -10,6 +10,9 @@ def type_cast_args(args:list[str]) -> None:
 def get_ofense():
     return choice(curses)
 
+
+
+
 class Author:
     def __init__(self, user: User):
         self.name = user.username or user.full_name
@@ -23,6 +26,7 @@ class Telegram_Context_Adapter:
         self.app = app
         self.args = message.text.split(" ")[1:]
         self.author = Author(message.from_user)
+        self.message.author = self.author
     async def send(self, *args):
         #temporary filter for wordlewinners while
         #i dont fix the database
