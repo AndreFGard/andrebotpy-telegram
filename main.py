@@ -13,14 +13,17 @@ from telebot.types import Message
 
 import interface
 
-app = AsyncTeleBot(os.getenv('BOT_TOKEN'))
+app = AsyncTeleBot(os.getenv('BOT_TOKEN'),)
 
 # Handle '/start' and '/help'
+#app_message_handler = lambda text
+
+
 @app.message_handler(commands=['help', 'start'])
 async def send_welcome(message):
     text = """Hi, im Andrebotpy on telegram! this bot is still in beta, but it\'s \"stable\"
     release can be found in it\'s 'discord bot form. i dont know, however, how to  provide
-    a link to it. In fact, thats why i created a telegram version!"""
+    a link to it. In fact, thats why i created a telegram version!""".replace("\n", "")
 
     await app.reply_to(message, text)
 
