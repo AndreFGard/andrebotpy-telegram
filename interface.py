@@ -1,8 +1,20 @@
-
-from  telebot.types import Message
+from random import choice
+from andrebotpy.toxingar import curses
+from  telebot.types import Message,User
 from telebot.async_telebot import AsyncTeleBot
 def type_cast_args(args:list[str]) -> None:
     return [(int(el) if el.isdecimal() else el)  for el in args]
+
+
+
+def get_ofense():
+    return choice(curses)
+
+class Author:
+    def __init__(self, user: User):
+        self.name = user.username or user.full_name
+    def __repr__(self):
+        return self.name
 
 class Telegram_Context_Adapter:
     """builds the context object"""
@@ -10,9 +22,20 @@ class Telegram_Context_Adapter:
         self.message = message
         self.app = app
         self.args = message.text.split(" ")[1:]
-        self.author = message.from_user.full_name
+        self.author = Author(message.from_user)
     async def send(self, *args):
-        text = " ".join(args)
+        #temporary filter for wordlewinners while
+        #i dont fix the database
+        if args and type(args[0]) == type(dict()):
+            nd = dict()
+            for name,wins in args[0].items():
+                newname = get_ofense() if name != "Andrebot" else name
+                nd[newname] = wins
+            args = (nd,) + args[1:]
+
+
+
+        text = " ".join(map(str, args))
         await self.app.reply_to(self.message, text)
 
 class Telegram_Interface:
