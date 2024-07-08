@@ -27,6 +27,7 @@ class Telegram_Context_Adapter:
         self.args = message.text.split(" ")[1:]
         self.author = Author(message.from_user)
         self.message.author = self.author
+
     async def send(self, *args):
         #temporary filter for wordlewinners while
         #i dont fix the database
@@ -34,6 +35,8 @@ class Telegram_Context_Adapter:
             nd = dict()
             for name,wins in args[0].items():
                 newname = get_ofense() if name != "Andrebot" else name
+                while newname not in nd:
+                    newname = get_ofense()
                 nd[newname] = wins
             args = (nd,) + args[1:]
 
@@ -41,6 +44,7 @@ class Telegram_Context_Adapter:
 
         text = " ".join(map(str, args))
         await self.app.reply_to(self.message, text)
+
 
 class Telegram_Interface:
     """this interface converts whatever api is being used to an api that provides for each function
@@ -50,10 +54,12 @@ class Telegram_Interface:
         self.decorator = decorator
         self.context_adapter = Telegram_Context_Adapter
         self.app = app
+        self.HELP_TEXT = ""
 
     def interface_middleware_decorator(self):
         def decor(f):
             #print("im running")
+            if f.__doc__: self.HELP_TEXT += f.__doc__
             @self.decorator(func = lambda message: message.text.split(" ")[0] == ("/" + f.__name__))
             async def f2(ctx, *args):
                 
