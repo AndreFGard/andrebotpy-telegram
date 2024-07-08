@@ -50,7 +50,7 @@ class Telegram_Interface:
     def interface_middleware_decorator(self):
         def decor(f):
             #print("im running")
-            @self.decorator(commands=[f.__name__])
+            @self.decorator(func = lambda message: message.text.split(" ")[0] == ("/" + f.__name__))
             async def f2(ctx, *args):
                 
 
