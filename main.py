@@ -29,7 +29,7 @@ async def send_welcome(message):
 
 ### import all the functionality from my discord bot, andrebotpy
 telegram_interface = lambda dec: interface.Telegram_Interface(app, dec)
-andrebot = andrebotpy.Andrebot.Andrebot(app.message_handler, telegram_interface, "andrebotpy/")
+andrebot = andrebotpy.Andrebot.Andrebot(app.message_handler, telegram_interface, "andrebotpy/", platform="tg")
 asyncio.run(andrebot.create_functions())
 
 

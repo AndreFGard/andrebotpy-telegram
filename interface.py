@@ -29,18 +29,6 @@ class Telegram_Context_Adapter:
         self.message.author = self.author
 
     async def send(self, *args):
-        #temporary filter for wordlewinners while
-        #i dont fix the database
-        if args and type(args[0]) == type(dict()):
-            nd = dict()
-            for name,wins in args[0].items():
-                newname = get_ofense() if name != "Andrebot" else name
-                while newname in nd:
-                    newname = get_ofense()
-                nd[newname] = wins
-            args = (nd,) + args[1:]
-
-
 
         text = " ".join(map(str, args))
         await self.app.reply_to(self.message, text)
